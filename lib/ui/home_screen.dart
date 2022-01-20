@@ -10,18 +10,31 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  // final CollectionReference _lessons = FirebaseFirestore.instance.collection('lessons').where ( 'grade' ,'==',  '1');
   final CollectionReference _lessons = FirebaseFirestore.instance.collection('lessons');
-  // final CollectionReference _lessons = FirebaseFirestore.instance.collection('lessons').where(
-  //     {
-  //       "grade":'1'
-  //     });
-  // final _lessons = FirebaseFirestore.instance.collection('lessons').where(
-  //     'grade', isEqualTo: '1');
 
+  List gradeArray = [];
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
 
-  void _incrementCounter() {
-    setState(() {
-    });
+  Future<void> getData() async {
+    // Get docs from collection reference
+    QuerySnapshot querySnapshot = await _lessons.get();
+
+    // Get data from docs and convert map to List
+    final allData = querySnapshot.docs.map((doc) => doc.data()).toList();
+
+    for (int i = 0; i < allData.length; i++) {
+      var a = allData[i]['grade'];
+      if(8 == a){
+        gradeArray.add(allData[i]);
+        // print(allData[i]);
+      }
+      print(gradeArray);
+    }
   }
 
   @override

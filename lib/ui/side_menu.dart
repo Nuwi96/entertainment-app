@@ -6,7 +6,6 @@ import 'add_lesson.dart';
 import 'home_screen.dart';
 import 'lessons.dart';
 
-
 class SideMenu extends StatelessWidget {
   const SideMenu({Key key}) : super(key: key);
 
@@ -16,15 +15,21 @@ class SideMenu extends StatelessWidget {
       child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
-          const DrawerHeader(
-              child: Text(
-                'EDU',
-                style: TextStyle(color: Colors.white, fontSize: 25),
+          DrawerHeader(
+              child: Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    colorFilter: ColorFilter.mode(
+                        Colors.black.withOpacity(0.75), BlendMode.dstATop),
+                    image: AssetImage('assets/images/note.jpg'),
+
+                    fit: BoxFit.cover,
+                  ),
+                ),
               ),
               decoration: BoxDecoration(
-                color: Color(0xff00008B),
-              )
-          ),
+                color: Colors.white,
+              )),
           ListTile(
             leading: const Icon(Icons.house_sharp),
             title: const Text('Home'),
@@ -34,40 +39,45 @@ class SideMenu extends StatelessWidget {
                 MaterialPageRoute(builder: (context) => const MyHomePage()),
               )
             },
-          ),ListTile(
+          ),
+          ListTile(
             leading: const Icon(Icons.house_sharp),
-            title: const Text('Lessons'),
+            title: const Text('Articles'),
             onTap: () => {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const LessonsScreen()),
               )
             },
-          ),ListTile(
+          ),
+          ListTile(
             leading: const Icon(Icons.house_sharp),
-            title: const Text('Tuition'),
+            title: const Text('Tuition Advertisement'),
             onTap: () => {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const TuitionScreen()),
               )
             },
-          ),ListTile(
+          ),
+          ListTile(
             leading: const Icon(Icons.house_sharp),
-            title: const Text('Add Lesson'),
+            title: const Text('Add Article'),
             onTap: () => {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const AddLesson()),
               )
             },
-          ),ListTile(
+          ),
+          ListTile(
             leading: const Icon(Icons.house_sharp),
             title: const Text('Add Advertisement'),
             onTap: () => {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const AddAdvertisement()),
+                MaterialPageRoute(
+                    builder: (context) => const AddAdvertisement()),
               )
             },
           ),
