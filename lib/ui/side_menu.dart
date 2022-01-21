@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:education_app/ui/login.dart';
 import 'package:education_app/ui/tution.dart';
 import 'package:flutter/material.dart';
 
@@ -6,8 +8,33 @@ import 'add_lesson.dart';
 import 'home_screen.dart';
 import 'lessons.dart';
 
-class SideMenu extends StatelessWidget {
+class SideMenu extends StatefulWidget {
   const SideMenu({Key key}) : super(key: key);
+
+  @override
+  _SideMenuState createState() => _SideMenuState();
+}
+
+class _SideMenuState extends State<SideMenu> {
+  final CollectionReference _users =
+      FirebaseFirestore.instance.collection('login_user');
+
+  var userArray = [];
+
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
+  Future<void> getData() async {
+    // Get docs from collection reference
+    QuerySnapshot querySnapshot = await _users.get();
+
+    setState(() {
+      userArray = querySnapshot.docs.map((doc) => doc.data()).toList();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +49,6 @@ class SideMenu extends StatelessWidget {
                     colorFilter: ColorFilter.mode(
                         Colors.black.withOpacity(0.75), BlendMode.dstATop),
                     image: AssetImage('assets/images/note.jpg'),
-
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -62,25 +88,40 @@ class SideMenu extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.house_sharp),
-            title: const Text('Add a book'),
+            title: Text((userArray[0]['logged_in']) ? 'LogOut' : 'Login'),
             onTap: () => {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const AddLesson()),
+                MaterialPageRoute(builder: (context) => const Login()),
               )
             },
           ),
-          ListTile(
-            leading: const Icon(Icons.house_sharp),
-            title: const Text('Add Advertisement'),
-            onTap: () => {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const AddAdvertisement()),
-              )
-            },
-          ),
+          userArray[0]['logged_in']
+              ? ListTile(
+                  leading: const Icon(Icons.house_sharp),
+                  title: const Text('Add a book'),
+                  onTap: () => {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const AddLesson()),
+                    )
+                  },
+                )
+              : Text(''),
+          userArray[0]['logged_in']
+              ? ListTile(
+                  leading: const Icon(Icons.house_sharp),
+                  title: const Text('Add Advertisement'),
+                  onTap: () => {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const AddAdvertisement()),
+                    )
+                  },
+                )
+              : Text(''),
         ],
       ),
     );

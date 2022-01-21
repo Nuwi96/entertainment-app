@@ -10,10 +10,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  // final CollectionReference _lessons = FirebaseFirestore.instance.collection('lessons').where ( 'grade' ,'==',  '1');
-  final CollectionReference _lessons = FirebaseFirestore.instance.collection('lessons');
 
-  List gradeArray = [];
+  final CollectionReference _users =
+  FirebaseFirestore.instance.collection('login_user');
+
+  var userArray = [];
+
   @override
   void initState() {
     super.initState();
@@ -22,19 +24,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<void> getData() async {
     // Get docs from collection reference
-    QuerySnapshot querySnapshot = await _lessons.get();
+    QuerySnapshot querySnapshot = await _users.get();
 
-    // Get data from docs and convert map to List
-    final allData = querySnapshot.docs.map((doc) => doc.data()).toList();
-
-    for (int i = 0; i < allData.length; i++) {
-      var a = allData[i]['grade'];
-      if(8 == a){
-        gradeArray.add(allData[i]);
-        // print(allData[i]);
-      }
-      print(gradeArray);
-    }
+    setState(() {
+      userArray = querySnapshot.docs.map((doc) => doc.data()).toList();
+    });
   }
 
   @override
@@ -45,7 +39,9 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         backgroundColor: Color(0xff00008B),
       ),
-      body: Text(""),
+      body: Center(
+        child: Text(!userArray[0]['logged_in'] ? 'Welcome To EDU APP' : 'Welcome ADMIN ', style: TextStyle(fontSize: 25,color: Colors.black.withOpacity(0.6))),
+      )
     );
   }
 }
