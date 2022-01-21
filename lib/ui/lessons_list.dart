@@ -46,7 +46,9 @@ class _LessonsListState extends State<LessonsList> {
     for (int i = 0; i < allData.length; i++) {
       var a = allData[i]['grade'];
       if (widget.grade == a) {
-        gradeArray.add(allData[i]);
+        setState(() {
+          gradeArray.add(allData[i]);
+        });
       }
     }
   }
@@ -81,13 +83,16 @@ class _LessonsListState extends State<LessonsList> {
                                     (index >= 3
                                         ? colorCode.length - 1
                                         : index)]],
-                                title: Text(gradeArray[index]['title']??'',
+                                title: Text(gradeArray[index]['title'] ?? '',
                                     style: const TextStyle(
                                         color: Colors.white, fontSize: 18)),
-                                subtitle: Text(gradeArray[index]['author']??'',
+                                subtitle: Text(
+                                    gradeArray[index]['author'] ?? '',
                                     style: const TextStyle(
                                         color: Colors.white, fontSize: 15)),
-                                leading: CircleAvatar(backgroundImage: NetworkImage(gradeArray[index]['image']??'')),
+                                leading: CircleAvatar(
+                                    backgroundImage: NetworkImage(
+                                        gradeArray[index]['image'] ?? '')),
                                 trailing: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
@@ -95,10 +100,17 @@ class _LessonsListState extends State<LessonsList> {
                                         onPressed: () async {
                                           Navigator.push(
                                             context,
-                                            MaterialPageRoute(builder: (context) =>  LessonView(data:gradeArray[index])),
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    LessonView(
+                                                        data:
+                                                            gradeArray[index])),
                                           );
                                         },
-                                        icon: const Icon(Icons.remove_red_eye,color: Colors.white,)),
+                                        icon: const Icon(
+                                          Icons.remove_red_eye,
+                                          color: Colors.white,
+                                        )),
                                   ],
                                 ),
                               ),

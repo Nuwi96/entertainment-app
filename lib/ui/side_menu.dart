@@ -88,7 +88,7 @@ class _SideMenuState extends State<SideMenu> {
           ),
           ListTile(
             leading: const Icon(Icons.house_sharp),
-            title: Text((userArray[0]['logged_in']) ? 'LogOut' : 'Login'),
+            title: Text(userArray.isNotEmpty? (userArray[0]['logged_in']) ? 'LogOut' : 'Login':'Login'),
             onTap: () => {
               Navigator.push(
                 context,
@@ -96,7 +96,7 @@ class _SideMenuState extends State<SideMenu> {
               )
             },
           ),
-          userArray[0]['logged_in']
+          userArray.isNotEmpty?userArray[0]['logged_in']
               ? ListTile(
                   leading: const Icon(Icons.house_sharp),
                   title: const Text('Add a book'),
@@ -108,8 +108,8 @@ class _SideMenuState extends State<SideMenu> {
                     )
                   },
                 )
-              : Text(''),
-          userArray[0]['logged_in']
+              : Text(''):Text(''),
+          userArray.isNotEmpty?userArray[0]['logged_in']
               ? ListTile(
                   leading: const Icon(Icons.house_sharp),
                   title: const Text('Add Advertisement'),
@@ -121,7 +121,7 @@ class _SideMenuState extends State<SideMenu> {
                     )
                   },
                 )
-              : Text(''),
+              : Text(''): Text(''),
         ],
       ),
     );
