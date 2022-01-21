@@ -1,10 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:education_app/ui/login.dart';
 import 'package:education_app/ui/tution.dart';
 import 'package:flutter/material.dart';
 
 import 'add_advertisement.dart';
-import 'add_lesson.dart';
+import 'add_book.dart';
 import 'home_screen.dart';
 import 'lessons.dart';
 import 'login_screen.dart';
@@ -105,7 +104,7 @@ class _SideMenuState extends State<SideMenu> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const AddLesson()),
+                          builder: (context) => const AddBookScreen()),
                     )
                   },
                 )
