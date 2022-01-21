@@ -7,6 +7,7 @@ import 'add_advertisement.dart';
 import 'add_lesson.dart';
 import 'home_screen.dart';
 import 'lessons.dart';
+import 'login_screen.dart';
 
 class SideMenu extends StatefulWidget {
   const SideMenu({Key key}) : super(key: key);
@@ -92,7 +93,7 @@ class _SideMenuState extends State<SideMenu> {
             onTap: () => {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const Login()),
+                MaterialPageRoute(builder: (context) => const SimpleLoginScreen()),
               )
             },
           ),

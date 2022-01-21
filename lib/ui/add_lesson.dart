@@ -121,7 +121,9 @@ class _AddLessonState extends State<AddLesson> {
                   fontSize: 25.0,
                   color: Colors.black,
                   fontWeight: FontWeight.w900)),
-          Form(
+            Flexible(
+                child: Form(
+
             child: Column(
               children: [
                 TextFormField(
@@ -268,7 +270,7 @@ class _AddLessonState extends State<AddLesson> {
               ],
             ),
           )
-        ])));
+            )])));
   }
 
   save() async => {
