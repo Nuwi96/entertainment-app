@@ -24,6 +24,9 @@ class Item {
 class _AddLessonState extends State<AddLesson> {
   TextEditingController editTitleController = TextEditingController();
   TextEditingController editDescriptionController = TextEditingController();
+  TextEditingController editAuthorController = TextEditingController();
+  TextEditingController editYearController = TextEditingController();
+  TextEditingController editURLController = TextEditingController();
   final CollectionReference _lessons =
       FirebaseFirestore.instance.collection('lessons');
   List<Item> users = <Item>[
@@ -113,7 +116,7 @@ class _AddLessonState extends State<AddLesson> {
         body: Center(
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          const Text('Add a Lesson',
+          const Text('Add a Book',
               style: TextStyle(
                   fontSize: 25.0,
                   color: Colors.black,
@@ -125,8 +128,38 @@ class _AddLessonState extends State<AddLesson> {
                   controller: editTitleController,
                   decoration: const InputDecoration(
                     icon: Icon(Icons.title),
-                    hintText: 'Article Title',
-                    labelText: 'Title *',
+                    hintText: 'Book Title',
+                    labelText: 'Book Title *',
+                  ),
+                  onSaved: (String value) {
+                    // This optional block of code can be used to run
+                    // code when the user saves the form.
+                  },
+                  validator: (String value) {
+                    return (value != null) ? 'Do not use the @ char.' : null;
+                  },
+                ),
+                TextFormField(
+                  controller: editAuthorController,
+                  decoration: const InputDecoration(
+                    icon: Icon(Icons.title),
+                    hintText: 'Author Name',
+                    labelText: 'Author Name *',
+                  ),
+                  onSaved: (String value) {
+                    // This optional block of code can be used to run
+                    // code when the user saves the form.
+                  },
+                  validator: (String value) {
+                    return (value != null) ? 'Do not use the @ char.' : null;
+                  },
+                ),
+                TextFormField(
+                  controller: editYearController,
+                  decoration: const InputDecoration(
+                    icon: Icon(Icons.title),
+                    hintText: 'Published year',
+                    labelText: 'Published year *',
                   ),
                   onSaved: (String value) {
                     // This optional block of code can be used to run
@@ -141,8 +174,23 @@ class _AddLessonState extends State<AddLesson> {
                   maxLines: 5,
                   decoration: const InputDecoration(
                     icon: Icon(Icons.content_paste),
-                    hintText: 'Article Content',
-                    labelText: 'Content *',
+                    hintText: 'Book Content',
+                    labelText: 'Book Content *',
+                  ),
+                  onSaved: (String value) {
+                    // This optional block of code can be used to run
+                    // code when the user saves the form.
+                  },
+                  validator: (String value) {
+                    return (value != null) ? 'Do not use the @ char.' : null;
+                  },
+                ),
+                TextFormField(
+                  controller: editURLController,
+                  decoration: const InputDecoration(
+                    icon: Icon(Icons.content_paste),
+                    hintText: 'Image URL',
+                    labelText: 'Image URL *',
                   ),
                   onSaved: (String value) {
                     // This optional block of code can be used to run
@@ -227,24 +275,30 @@ class _AddLessonState extends State<AddLesson> {
         // print(    selectedUser.name
         // ),
         if ('' != editDescriptionController.text &&
-            '' != editTitleController.text &&
+            '' != editTitleController.text && '' != editAuthorController.text &&
             '' != _selectedText)
           {
-            await DatabaseHelper.instance.insertLesson({
-              "lesson_title": editTitleController.text,
-              "grade": int.parse(_selectedText),
-              "lesson": editDescriptionController.text,
-              "added_user": 1,
-            }),
+            // await DatabaseHelper.instance.insertLesson({
+            //   "title": editTitleController.text,
+            //   "grade": int.parse(_selectedText),
+            //   "description": editDescriptionController.text,
+            //   "image": editURLController.text,
+            //   "pubished_year": editYearController.text,
+            //   "author": editAuthorController.text,
+            //   "added_user": 1,
+            // }),
             Toast.show("Added Successfully", context,
                 duration: Toast.LENGTH_LONG,
                 gravity: Toast.BOTTOM,
                 backgroundColor: Colors.green),
             await _lessons.add({
-              "lesson_title": editTitleController.text,
-              "lesson": editDescriptionController.text,
+              "title": editTitleController.text,
               "grade": int.parse(_selectedText),
-              "added_user": '1'
+              "description": editDescriptionController.text,
+              "image": editURLController.text,
+              "published_year": editYearController.text,
+              "author": editAuthorController.text,
+              "added_user": 1,
             }),
             await Navigator.push(
               context,

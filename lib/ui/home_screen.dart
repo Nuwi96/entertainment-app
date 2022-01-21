@@ -45,39 +45,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         backgroundColor: Color(0xff00008B),
       ),
-      body: StreamBuilder(
-        stream:_lessons.snapshots() ,
-        builder: (context,AsyncSnapshot<QuerySnapshot> streamSnapshot){
-          if(streamSnapshot.hasData){
-            return ListView.builder(
-              itemCount: streamSnapshot.data.docs.length,
-                itemBuilder:(context, index){
-                final DocumentSnapshot documentSnapshot = streamSnapshot.data.docs[index];
-                return Card(
-                  child: Container(
-                     child: Column(
-                       children: [
-                         Text(documentSnapshot['lesson_title']),
-                         Text(documentSnapshot['lesson']),
-                         Text(documentSnapshot['grade'].toString()),
-                       ],
-                     ),
-                  ),
-                );
-                }
-            );
-          }
-        },
-
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: (){
-
-        },
-        child: Icon(
-          Icons.add
-        ),
-      ),// This trailing comma makes auto-formatting nicer for build methods.
+      body: Text(""),
     );
   }
 }

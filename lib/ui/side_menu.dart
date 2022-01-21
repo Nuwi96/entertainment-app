@@ -42,7 +42,7 @@ class SideMenu extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.house_sharp),
-            title: const Text('Articles'),
+            title: const Text('Books'),
             onTap: () => {
               Navigator.push(
                 context,
@@ -62,7 +62,7 @@ class SideMenu extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.house_sharp),
-            title: const Text('Add Article'),
+            title: const Text('Add a book'),
             onTap: () => {
               Navigator.push(
                 context,

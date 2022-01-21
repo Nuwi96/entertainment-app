@@ -4,6 +4,8 @@ import 'package:education_app/ui/side_menu.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'lesson_view.dart';
+
 class LessonsList extends StatefulWidget {
   final int grade;
 
@@ -14,7 +16,6 @@ class LessonsList extends StatefulWidget {
 }
 
 class _LessonsListState extends State<LessonsList> {
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   List<Map<String, dynamic>> notes;
   List<Map<String, dynamic>> noteList;
   List<Map<String, dynamic>> searchNotes;
@@ -28,6 +29,8 @@ class _LessonsListState extends State<LessonsList> {
       FirebaseFirestore.instance.collection('lessons');
 
   List gradeArray = [];
+  String title;
+  String article;
 
   @override
   void initState() {
@@ -36,19 +39,15 @@ class _LessonsListState extends State<LessonsList> {
   }
 
   Future<void> getData() async {
-    // Get docs from collection reference
     QuerySnapshot querySnapshot = await _lessons.get();
 
-    // Get data from docs and convert map to List
     final allData = querySnapshot.docs.map((doc) => doc.data()).toList();
 
     for (int i = 0; i < allData.length; i++) {
       var a = allData[i]['grade'];
       if (widget.grade == a) {
         gradeArray.add(allData[i]);
-        // print(allData[i]);
       }
-      print(gradeArray);
     }
   }
 
@@ -82,36 +81,24 @@ class _LessonsListState extends State<LessonsList> {
                                     (index >= 3
                                         ? colorCode.length - 1
                                         : index)]],
-                                // title: Text(notes[index]['id']),
-                                title: Text(gradeArray[index]['lesson_title'],
+                                title: Text(gradeArray[index]['title']??'',
                                     style: const TextStyle(
                                         color: Colors.white, fontSize: 18)),
-                                subtitle: Text(gradeArray[index]['lesson'],
+                                subtitle: Text(gradeArray[index]['author']??'',
                                     style: const TextStyle(
                                         color: Colors.white, fontSize: 15)),
+                                leading: CircleAvatar(backgroundImage: NetworkImage(gradeArray[index]['image']??'')),
                                 trailing: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     IconButton(
                                         onPressed: () async {
-                                          // final String title = gradeArray[index]['lesson'];
-                                          // var lesson = documentSnapshot['lesson'];
-                                          //
-                                          // Navigator.push(
-                                          //   context,
-                                          //   MaterialPageRoute(builder: (context) => const LessonView(title:title,gradeArray[index]['lesson_title'])),
-                                          // );
-
-                                          setData(
-                                              gradeArray[index]['id']
-                                                  .toString(),
-                                              gradeArray[index]['lesson_title'],
-                                              gradeArray[index]['lesson']);
-                                          // setData(documentSnapshot['id'],
-                                          //     documentSnapshot['lesson_title'], documentSnapshot['lesson']);
-                                          showForm(context);
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(builder: (context) =>  LessonView(data:gradeArray[index])),
+                                          );
                                         },
-                                        icon: const Icon(Icons.remove_red_eye)),
+                                        icon: const Icon(Icons.remove_red_eye,color: Colors.white,)),
                                   ],
                                 ),
                               ),
@@ -125,66 +112,6 @@ class _LessonsListState extends State<LessonsList> {
       ),
     );
   }
-
-  Future<void> showForm(BuildContext context) async {
-    return await showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            content: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Visibility(
-                    visible: false,
-                    child: TextFormField(controller: editIDController),
-                  ),
-                  TextFormField(
-                    autofocus: false,
-                    controller: editTitleController,
-                    validator: (value) {
-                      return value.isNotEmpty ? null : "Invalid Filed";
-                    },
-                    decoration: const InputDecoration(hintText: "Enter Title"),
-                  ),
-                  TextFormField(
-                    autofocus: false,
-                    controller: editNoteController,
-                    maxLines: 6,
-                    validator: (value) {
-                      return value.isNotEmpty ? null : "Invalid Filed";
-                    },
-                    decoration:
-                        const InputDecoration(hintText: "Enter Description"),
-                  )
-                ],
-              ),
-            ),
-          );
-        }).then((_) => setState(() {
-          // getData();
-        }));
-  }
-
-  setData(id, title, note) {
-    if ('' != id) {
-      editIDController.text = id;
-      editTitleController.text = title;
-      editNoteController.text = note;
-    } else {
-      editIDController.text = '';
-      editTitleController.text = '';
-      editNoteController.text = '';
-    }
-  }
-
-  // getData() async {
-  //   setState(() async {
-  //     notes = await DatabaseHelper.instance.getAllLessons();
-  //   });
-  //   print(notes);
-  // }
 
   search() async {
     setState(() {
