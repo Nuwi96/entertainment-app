@@ -4,6 +4,7 @@ import 'package:education_app/ui/side_menu.dart';
 import 'package:education_app/ui/update_book.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:toast/toast.dart';
 
 import 'lesson_view.dart';
 
@@ -43,14 +44,15 @@ class _LessonsListState extends State<LessonsList> {
   }
 
   Future<void> getData() async {
-    print(_lessons);
     QuerySnapshot querySnapshot = await _lessons.get();
 
     final allData = querySnapshot.docs.map((doc) => doc.data()).toList();
 
     for (int i = 0; i < allData.length; i++) {
+      print(querySnapshot.docs[i].id);
       var a = allData[i]['grade'];
       if (widget.grade == a) {
+        allData[i]['id'] = querySnapshot.docs[i].id;
         setState(() {
           gradeArray.add(allData[i]);
         });
@@ -62,8 +64,6 @@ class _LessonsListState extends State<LessonsList> {
     setState(() {
       userArray = querySnapshot2.docs.map((doc) => doc.data()).toList();
     });
-
-    print(gradeArray);
   }
 
   @override
@@ -109,7 +109,8 @@ class _LessonsListState extends State<LessonsList> {
                                 trailing: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    // Text(streamSnapshot.data.toString()),
+                                    // Text(streamSnapshot
+                                    //     .data.docs[index].id),
                                     IconButton(
                                         onPressed: () async {
                                           Navigator.push(
@@ -128,7 +129,9 @@ class _LessonsListState extends State<LessonsList> {
                                     userArray[0]['logged_in']
                                         ? IconButton(
                                             onPressed: () async {
-                                              delete(streamSnapshot.data.docs[index].id);
+                                              showAlertDialog(context,
+                                                  gradeArray[index]['id']);
+                                              // delete(streamSnapshot.data.docs[index].id);
                                             },
                                             icon: const Icon(
                                               Icons.delete,
@@ -143,8 +146,12 @@ class _LessonsListState extends State<LessonsList> {
                                                 MaterialPageRoute(
                                                     builder: (context) =>
                                                         UpdateBook(
-                                                            data:
-                                                            gradeArray[index],id:streamSnapshot.data.docs[index].id)),
+                                                            data: gradeArray[
+                                                                index],
+                                                            id: streamSnapshot
+                                                                .data
+                                                                .docs[index]
+                                                                .id)),
                                               );
                                             },
                                             icon: const Icon(
@@ -176,8 +183,49 @@ class _LessonsListState extends State<LessonsList> {
     });
   }
 
-  delete(id){
+  showAlertDialog(BuildContext context, id) {
+    print(id);
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text("Cancel"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+    Widget continueButton = TextButton(
+      child: Text("Delete"),
+      onPressed: () {
+        _lessons.doc(id).delete();
+        Toast.show("Deleted Successfully", context,
+            duration: Toast.LENGTH_LONG,
+            gravity: Toast.BOTTOM,
+            backgroundColor: Colors.green);
+        Navigator.of(context).pop();
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => LessonsList(grade: widget.grade)),
+        );
+      },
+    );
 
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Are You Sure...?"),
+      content: Text(
+          "Would you like to continue deleting this book...? You can't revert this action again."),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
-
 }
