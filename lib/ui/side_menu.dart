@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:education_app/ui/tution.dart';
+import 'package:education_app/ui/tv_shows_popular.dart';
 import 'package:flutter/material.dart';
 
 import 'add_advertisement.dart';
@@ -48,7 +49,7 @@ class _SideMenuState extends State<SideMenu> {
                   image: DecorationImage(
                     colorFilter: ColorFilter.mode(
                         Colors.black.withOpacity(0.75), BlendMode.dstATop),
-                    image: AssetImage('assets/images/note.jpg'),
+                    image: AssetImage('assets/images/en.jpg'),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -78,11 +79,21 @@ class _SideMenuState extends State<SideMenu> {
           ),
           ListTile(
             leading: const Icon(Icons.house_sharp),
-            title: const Text('Tuition Advertisement'),
+            title: const Text('Movies'),
             onTap: () => {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const TuitionScreen()),
+              )
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.house_sharp),
+            title: const Text('Tv Shows'),
+            onTap: () => {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const TvShows()),
               )
             },
           ),
@@ -112,7 +123,7 @@ class _SideMenuState extends State<SideMenu> {
           userArray.isNotEmpty?userArray[0]['logged_in']
               ? ListTile(
                   leading: const Icon(Icons.house_sharp),
-                  title: const Text('Add Advertisement'),
+                  title: const Text('Add Movie'),
                   onTap: () => {
                     Navigator.push(
                       context,
@@ -121,6 +132,19 @@ class _SideMenuState extends State<SideMenu> {
                     )
                   },
                 )
+              : Text(''): Text(''),
+          userArray.isNotEmpty?userArray[0]['logged_in']
+              ? ListTile(
+            leading: const Icon(Icons.house_sharp),
+            title: const Text('Add Tv Show'),
+            onTap: () => {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const AddAdvertisement()),
+              )
+            },
+          )
               : Text(''): Text(''),
         ],
       ),

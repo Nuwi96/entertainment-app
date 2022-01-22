@@ -42,6 +42,7 @@ dependencies:
   #  firebase_analytics: ^7.0.1
   #  firebase_auth: ^0.20.1
   cloud_firestore: ^0.16.0+1
+  http: ^0.12.2
 
 dev_dependencies:
   flutter_test:
@@ -68,6 +69,10 @@ flutter:
   # To add images to your application, add an images section, like this:
   assets:
     - assets/images/note.jpg
+    - assets/images/book - Copy.jpg
+    - assets/images/movie - Copy.jpg
+    - assets/images/tv - Copy.jpg
+    - assets/images/en.jpg
 
 
 
