@@ -28,35 +28,50 @@ class _LessonViewState extends State<LessonView> {
               Card(
                 child: ListTile(
                   //leading: Icon(Icons.music_note),
-                  title: Text(widget.data['title'],style: const TextStyle(
-                      fontSize: 18,fontWeight: FontWeight.w300)),
+                  title: Text((null != widget.data['image'])?widget.data['title']:'No Title Available',
+                      style: const TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.w300)),
                 ),
                 elevation: 8,
                 shadowColor: Colors.lightBlueAccent,
                 margin: EdgeInsets.all(5),
               ),
-              Container(
-                width: 250,
-                height: 250,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    fit: BoxFit.fill,
-                    image: NetworkImage(widget.data['image']),
-                  ),
-                ),
-              ),
+              (null != widget.data['image'])
+                  ? Container(
+                      width: 250,
+                      height: 250,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          fit: BoxFit.fill,
+                          image: NetworkImage(widget.data['image']),
+                        ),
+                      ),
+                    )
+                  : Container(
+                      width: 250,
+                      height: 250,
+                      decoration: const BoxDecoration(
+                        image: DecorationImage(
+                          fit: BoxFit.fill,
+                          image: NetworkImage(
+                              'https://media.istockphoto.com/vectors/no-image-available-icon-vector-id1216251206?k=20&m=1216251206&s=612x612&w=0&h=BANco7qp0Ofqkod-ODPsbZVqVok7R5qUSznMN0AsMx8='),
+                        ),
+                      ),
+                    ),
               Card(
                 clipBehavior: Clip.antiAlias,
                 shadowColor: Colors.lightBlueAccent,
                 child: Column(
                   children: [
-                    Text('Author :' +  widget.data['author'],style: const TextStyle(
-                    fontSize: 15,fontWeight: FontWeight.w900)),
+                    Text((null != widget.data['image'])?('Author :' + widget.data['author']):'No Author Available',
+                        style: const TextStyle(
+                            fontSize: 15, fontWeight: FontWeight.w900)),
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Text(
                         widget.data['description'],
-                        style: TextStyle(fontSize: 15,color: Colors.black.withOpacity(0.6)),
+                        style: TextStyle(
+                            fontSize: 15, color: Colors.black.withOpacity(0.6)),
                       ),
                     ),
                   ],

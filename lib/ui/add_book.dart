@@ -67,7 +67,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                 ),
               ),
               SizedBox(height: screenHeight * .01),
-              InputField(
+              TextInputField(
                 onChanged: (value) {
                   setState(() {
                     title = value;
@@ -75,10 +75,10 @@ class _AddBookScreenState extends State<AddBookScreen> {
                 },
                 labelText: "Title",
                 textInputAction: TextInputAction.next,
-                autoFocus: true,
+                // autoFocus: true,
               ),
               SizedBox(height: screenHeight * .025),
-              InputField(
+              TextInputField(
                 onChanged: (value) {
                   setState(() {
                     author = value;
@@ -89,7 +89,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                 textInputAction: TextInputAction.next,
               ),
               SizedBox(height: screenHeight * .025),
-              InputField(
+              TextInputField(
                 onChanged: (value) {
                   setState(() {
                     desc = value;
@@ -100,7 +100,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                 textInputAction: TextInputAction.next,
               ),
               SizedBox(height: screenHeight * .025),
-              InputField(
+              TextInputField(
                 onChanged: (value) {
                   setState(() {
                     year = value;
@@ -111,7 +111,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                 textInputAction: TextInputAction.next,
               ),
               SizedBox(height: screenHeight * .025),
-              InputField(
+              TextInputField(
                 onChanged: (value) {
                   setState(() {
                     image = value;
@@ -242,7 +242,7 @@ class FormButton extends StatelessWidget {
   }
 }
 
-class InputField extends StatelessWidget {
+class TextInputField extends StatelessWidget {
   final String labelText;
   final Function(String) onChanged;
   final Function(String) onSubmitted;
@@ -253,7 +253,7 @@ class InputField extends StatelessWidget {
   final bool autoFocus;
   final bool obscureText;
 
-  const InputField(
+  const TextInputField(
       {this.labelText,
       this.onChanged,
       this.onSubmitted,
@@ -269,7 +269,6 @@ class InputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
-      controller: TextEditingController(text: value),
       autofocus: autoFocus,
       onChanged: onChanged,
       onSubmitted: onSubmitted,
