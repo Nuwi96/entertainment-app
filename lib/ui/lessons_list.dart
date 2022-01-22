@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:education_app/db/database_helper.dart';
 import 'package:education_app/ui/side_menu.dart';
+import 'package:education_app/ui/update_book.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -27,7 +28,10 @@ class _LessonsListState extends State<LessonsList> {
   TextEditingController searchController = TextEditingController();
   final CollectionReference _lessons =
       FirebaseFirestore.instance.collection('lessons');
+  final CollectionReference _users =
+      FirebaseFirestore.instance.collection('login_user');
 
+  var userArray = [];
   List gradeArray = [];
   String title;
   String article;
@@ -39,6 +43,7 @@ class _LessonsListState extends State<LessonsList> {
   }
 
   Future<void> getData() async {
+    print(_lessons);
     QuerySnapshot querySnapshot = await _lessons.get();
 
     final allData = querySnapshot.docs.map((doc) => doc.data()).toList();
@@ -51,6 +56,14 @@ class _LessonsListState extends State<LessonsList> {
         });
       }
     }
+
+    QuerySnapshot querySnapshot2 = await _users.get();
+
+    setState(() {
+      userArray = querySnapshot2.docs.map((doc) => doc.data()).toList();
+    });
+
+    print(gradeArray);
   }
 
   @override
@@ -96,6 +109,7 @@ class _LessonsListState extends State<LessonsList> {
                                 trailing: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
+                                    // Text(streamSnapshot.data.toString()),
                                     IconButton(
                                         onPressed: () async {
                                           Navigator.push(
@@ -111,6 +125,33 @@ class _LessonsListState extends State<LessonsList> {
                                           Icons.remove_red_eye,
                                           color: Colors.white,
                                         )),
+                                    userArray[0]['logged_in']
+                                        ? IconButton(
+                                            onPressed: () async {
+                                              delete(streamSnapshot.data.docs[index].id);
+                                            },
+                                            icon: const Icon(
+                                              Icons.delete,
+                                              color: Colors.white,
+                                            ))
+                                        : Text(''),
+                                    userArray[0]['logged_in']
+                                        ? IconButton(
+                                            onPressed: () async {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        UpdateBook(
+                                                            data:
+                                                            gradeArray[index],id:streamSnapshot.data.docs[index].id)),
+                                              );
+                                            },
+                                            icon: const Icon(
+                                              Icons.edit,
+                                              color: Colors.white,
+                                            ))
+                                        : Text(''),
                                   ],
                                 ),
                               ),
@@ -134,4 +175,9 @@ class _LessonsListState extends State<LessonsList> {
       }).toList();
     });
   }
+
+  delete(id){
+
+  }
+
 }

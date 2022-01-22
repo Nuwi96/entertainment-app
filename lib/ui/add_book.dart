@@ -247,6 +247,7 @@ class InputField extends StatelessWidget {
   final Function(String) onChanged;
   final Function(String) onSubmitted;
   final String errorText;
+  final String value;
   final TextInputType keyboardType;
   final TextInputAction textInputAction;
   final bool autoFocus;
@@ -259,6 +260,7 @@ class InputField extends StatelessWidget {
       this.errorText,
       this.keyboardType,
       this.textInputAction,
+      this.value,
       this.autoFocus = false,
       this.obscureText = false,
       Key key})
@@ -267,6 +269,7 @@ class InputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      controller: TextEditingController(text: value),
       autofocus: autoFocus,
       onChanged: onChanged,
       onSubmitted: onSubmitted,
