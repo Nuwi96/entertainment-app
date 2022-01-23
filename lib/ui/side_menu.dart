@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:education_app/ui/movies.dart';
 import 'package:education_app/ui/tv_shows_popular.dart';
 import 'package:flutter/material.dart';
-
 import 'add_movie.dart';
 import 'add_book.dart';
 import 'home_screen.dart';

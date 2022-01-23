@@ -38,11 +38,10 @@ dependencies:
   path_provider: ^1.6.24
   toast: ^0.1.5
   carousel_slider: ^3.0.0
-  #  firebase_core:
-  #  firebase_analytics: ^7.0.1
-  #  firebase_auth: ^0.20.1
   cloud_firestore: ^0.16.0+1
   http: ^0.12.2
+  data_connection_checker: ^0.3.4
+  connectivity_plus:
 
 dev_dependencies:
   flutter_test:
