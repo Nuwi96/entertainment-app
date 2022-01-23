@@ -1,16 +1,13 @@
 import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:education_app/ui/side_menu.dart';
 import 'package:education_app/ui/update_book.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:toast/toast.dart';
 import 'book_view.dart';
 import 'data_connection_checker.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
+
 class LessonsList extends StatefulWidget {
   final int grade;
 
@@ -21,9 +18,6 @@ class LessonsList extends StatefulWidget {
 }
 
 class _LessonsListState extends State<LessonsList> {
-  ConnectivityResult _connectionStatus = ConnectivityResult.none;
-  final Connectivity _connectivity = Connectivity();
-  StreamSubscription<ConnectivityResult> _connectivitySubscription;
   List<Map<String, dynamic>> notes;
   List<Map<String, dynamic>> noteList;
   List<Map<String, dynamic>> searchNotes;
@@ -42,22 +36,19 @@ class _LessonsListState extends State<LessonsList> {
   List gradeArray = [];
   String title;
   String article;
-  Future<dynamic> status;
+
   @override
   void initState() {
     super.initState();
-
-    status = checkInternet().checkConnection(context);
+    checkInternet().checkConnection(context);
     getData();
   }
-
 
   @override
   void dispose() {
     checkInternet().listener.cancel();
     super.dispose();
   }
-
 
   Future<void> getData() async {
     QuerySnapshot querySnapshot = await _lessons.get();
@@ -242,4 +233,3 @@ class _LessonsListState extends State<LessonsList> {
     );
   }
 }
-

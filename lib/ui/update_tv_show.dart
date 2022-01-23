@@ -61,7 +61,7 @@ class _UpdateTvShowScreenState extends State<UpdateTvShowScreen> {
             children: [
               SizedBox(height: screenHeight * .025),
               const Text(
-                "Update Book,",
+                "Update Tv Show,",
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
