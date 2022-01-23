@@ -57,6 +57,8 @@ class _AddBookScreenState extends State<AddBookScreen> {
       body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: ListView(
+            shrinkWrap: true,
+            physics: ScrollPhysics(),
             children: [
               SizedBox(height: screenHeight * .025),
               const Text(
@@ -142,7 +144,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                       value: value,
                       child: Row(
                         children: <Widget>[
-                          Text('Grade '+ value),
+                          Text('Grade ' + value),
                         ],
                       ));
                 }).toList(),
@@ -152,11 +154,11 @@ class _AddBookScreenState extends State<AddBookScreen> {
                 },
                 value: grade,
                 decoration: InputDecoration(
-                    contentPadding: EdgeInsets.fromLTRB(10, 20, 10, 20),
-                    filled: true,
-                    fillColor: Colors.white,
-                    // hintText: Localization.of(context).category,
-                   ),
+                  contentPadding: EdgeInsets.fromLTRB(10, 20, 10, 20),
+                  filled: true,
+                  fillColor: Colors.white,
+                  // hintText: Localization.of(context).category,
+                ),
               ),
               SizedBox(
                 height: screenHeight * .025,
@@ -174,7 +176,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
   }
 
   save() async => {
-        if ('' != title && 0 != author)
+        if (null != title && null != author)
           {
             Toast.show("Added Successfully", context,
                 duration: Toast.LENGTH_LONG,
@@ -202,7 +204,6 @@ class _AddBookScreenState extends State<AddBookScreen> {
                 backgroundColor: Colors.red),
           }
       };
-
 }
 
 class FormButton extends StatelessWidget {
@@ -258,19 +259,21 @@ class TextInputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
-      autofocus: autoFocus,
+      style: const TextStyle(color: Colors.black),
       onChanged: onChanged,
-      onSubmitted: onSubmitted,
-      keyboardType: keyboardType,
-      textInputAction: textInputAction,
-      obscureText: obscureText,
       decoration: InputDecoration(
-        labelText: labelText,
-        errorText: errorText,
-        floatingLabelBehavior: FloatingLabelBehavior.always,
+        focusedBorder: const OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.blue, width: 1.0),
+        ),
+        enabledBorder: const OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.grey, width: 1.0),
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
         ),
+        labelText: labelText,
+        errorText: errorText,
+        // hintStyle: TextStyle(color: Colors.white),
       ),
     );
   }

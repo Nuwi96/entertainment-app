@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
 
-import 'add_book.dart';
 import 'books.dart';
 
 class UpdateBook extends StatefulWidget {
@@ -70,8 +69,8 @@ class _UpdateBookState extends State<UpdateBook> {
                 },
                 value: title,
                 labelText: "Title",
-                textInputAction: TextInputAction.next,
-                autoFocus: true,
+                // textInputAction: TextInputAction.next,
+                // autoFocus: true,
               ),
               SizedBox(height: screenHeight * .025),
               InputField(
@@ -228,34 +227,36 @@ class InputField extends StatelessWidget {
 
   const InputField(
       {this.labelText,
-        this.onChanged,
-        this.onSubmitted,
-        this.errorText,
-        this.keyboardType,
-        this.textInputAction,
-        this.value,
-        this.autoFocus = false,
-        this.obscureText = false,
-        Key key})
+      this.onChanged,
+      this.onSubmitted,
+      this.errorText,
+      this.keyboardType,
+      this.textInputAction,
+      this.value,
+      this.autoFocus = false,
+      this.obscureText = false,
+      Key key})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextField(
       controller: TextEditingController(text: value),
-      autofocus: autoFocus,
+      style: const TextStyle(color: Colors.black),
       onChanged: onChanged,
-      onSubmitted: onSubmitted,
-      keyboardType: keyboardType,
-      textInputAction: textInputAction,
-      obscureText: obscureText,
       decoration: InputDecoration(
-        labelText: labelText,
-        errorText: errorText,
-        floatingLabelBehavior: FloatingLabelBehavior.always,
+        focusedBorder: const OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.blue, width: 1.0),
+        ),
+        enabledBorder: const OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.grey, width: 1.0),
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
         ),
+        labelText: labelText,
+        errorText: errorText,
+        // hintStyle: TextStyle(color: Colors.white),
       ),
     );
   }

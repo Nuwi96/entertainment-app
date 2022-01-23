@@ -236,19 +236,21 @@ class TextInputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
-      autofocus: autoFocus,
+      style: const TextStyle(color: Colors.black),
       onChanged: onChanged,
-      onSubmitted: onSubmitted,
-      keyboardType: keyboardType,
-      textInputAction: textInputAction,
-      obscureText: obscureText,
       decoration: InputDecoration(
-        labelText: labelText,
-        errorText: errorText,
-        floatingLabelBehavior: FloatingLabelBehavior.always,
+        focusedBorder: const OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.blue, width: 1.0),
+        ),
+        enabledBorder: const OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.grey, width: 1.0),
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
         ),
+        labelText: labelText,
+        errorText: errorText,
+        // hintStyle: TextStyle(color: Colors.white),
       ),
     );
   }
