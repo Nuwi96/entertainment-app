@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
 
 import 'home_screen.dart';
-import 'lessons.dart';
+import 'books.dart';
 
 class UpdateTvShowScreen extends StatefulWidget {
   final data;

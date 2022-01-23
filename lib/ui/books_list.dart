@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
 
-import 'lesson_view.dart';
+import 'book_view.dart';
 
 class LessonsList extends StatefulWidget {
   final int grade;

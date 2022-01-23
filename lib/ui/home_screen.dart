@@ -4,7 +4,7 @@ import 'package:education_app/ui/tv_shows_popular.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'lessons.dart';
+import 'books.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key key}) : super(key: key);

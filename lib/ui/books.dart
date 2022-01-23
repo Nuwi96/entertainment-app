@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
-import 'lessons_list.dart';
+import 'books_list.dart';
 
 class LessonsScreen extends StatefulWidget {
   const LessonsScreen({Key key}) : super(key: key);

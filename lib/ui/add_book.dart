@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
 
 import 'home_screen.dart';
-import 'lessons.dart';
+import 'books.dart';
 
 class AddBookScreen extends StatefulWidget {
   final Function(String email, String password) onSubmitted;

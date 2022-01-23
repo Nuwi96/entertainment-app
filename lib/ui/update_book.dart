@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
 
 import 'add_book.dart';
-import 'lessons.dart';
+import 'books.dart';
 
 class UpdateBook extends StatefulWidget {
   final data;
