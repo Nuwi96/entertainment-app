@@ -1,24 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:education_app/ui/side_menu.dart';
 import 'package:education_app/ui/tv_list_view.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
 
-import 'home_screen.dart';
-import 'books.dart';
+import 'add_book.dart';
 
-class UpdateTvShowScreen extends StatefulWidget {
-  final data;
-  final id;
-  final type;
-
-  const UpdateTvShowScreen({Key key, this.data, this.id, this.type}): super(key: key);
+class AddTvShow extends StatefulWidget {
+  const AddTvShow({Key key}) : super(key: key);
 
   @override
-  _UpdateTvShowScreenState createState() => _UpdateTvShowScreenState();
+  _AddTvShowState createState() => _AddTvShowState();
 }
 
-class _UpdateTvShowScreenState extends State<UpdateTvShowScreen> {
+class _AddTvShowState extends State<AddTvShow> {
   final CollectionReference _shows =
       FirebaseFirestore.instance.collection('tv_shows');
   final CollectionReference _on_air_shows =
@@ -35,21 +31,19 @@ class _UpdateTvShowScreenState extends State<UpdateTvShowScreen> {
   @override
   void initState() {
     super.initState();
-    // print(widget.data);
     setState(() {
-      name = widget.data['name'];
-      overview = widget.data['overview'];
-      popularity = widget.data['popularity'].toString();
-      backdrop_path = widget.data['backdrop_path'];
-      id = widget.data['id'];
-      type = widget.type;
+      name = '';
+      overview = '';
+      popularity = '';
+      backdrop_path = '';
+      id = '';
+      type = 'tv_shows';
     });
   }
 
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
-
     return Scaffold(
       drawer: const SideMenu(),
       appBar: AppBar(
@@ -61,14 +55,14 @@ class _UpdateTvShowScreenState extends State<UpdateTvShowScreen> {
             children: [
               SizedBox(height: screenHeight * .025),
               const Text(
-                "Update Tv Show,",
+                "Add Tv Show,",
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               SizedBox(height: screenHeight * .01),
-              InputField(
+              TextInputField(
                 onChanged: (value) {
                   setState(() {
                     name = value;
@@ -80,7 +74,7 @@ class _UpdateTvShowScreenState extends State<UpdateTvShowScreen> {
                 autoFocus: true,
               ),
               SizedBox(height: screenHeight * .025),
-              InputField(
+              TextInputField(
                 onChanged: (value) {
                   setState(() {
                     overview = value;
@@ -91,7 +85,7 @@ class _UpdateTvShowScreenState extends State<UpdateTvShowScreen> {
                 textInputAction: TextInputAction.next,
               ),
               SizedBox(height: screenHeight * .025),
-              InputField(
+              TextInputField(
                 onChanged: (value) {
                   setState(() {
                     backdrop_path = value;
@@ -102,7 +96,7 @@ class _UpdateTvShowScreenState extends State<UpdateTvShowScreen> {
                 textInputAction: TextInputAction.next,
               ),
               SizedBox(height: screenHeight * .025),
-              InputField(
+              TextInputField(
                 onChanged: (value) {
                   setState(() {
                     popularity = value;
@@ -143,8 +137,8 @@ class _UpdateTvShowScreenState extends State<UpdateTvShowScreen> {
                 height: screenHeight * .025,
               ),
               FormButton(
-                text: "Update Tv Show",
-                onPressed: update,
+                text: "Save Tv Show",
+                onPressed: save,
               ),
               SizedBox(
                 height: screenHeight * .15,
@@ -154,87 +148,68 @@ class _UpdateTvShowScreenState extends State<UpdateTvShowScreen> {
     );
   }
 
-  update() {
-    switch (type) {
-      case 'tv_shows':
-        _shows.doc(widget.id).update({
-          "name": name,
-          "overview": overview,
-          "popularity": ('' !=popularity)?double.parse(popularity):0,
-          "backdrop_path": backdrop_path,
-        });
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => TvShowListView(type: type)),
-        );
-        Toast.show("Tv Show Updated Successfully", context,
-            duration: Toast.LENGTH_LONG,
-            gravity: Toast.BOTTOM,
-            backgroundColor: Colors.green);
-        break;
-      case 'on_air_tv_shows':
-        _on_air_shows.doc(widget.id).update({
-          "name": name,
-          "overview": overview,
-          "popularity": ('' !=popularity)?double.parse(popularity):0,
-          "backdrop_path": backdrop_path,
-        });
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => TvShowListView(type: type)),
-        );
-        Toast.show("Tv Show Updated Successfully", context,
-            duration: Toast.LENGTH_LONG,
-            gravity: Toast.BOTTOM,
-            backgroundColor: Colors.green);
-        break;
-      case 'tv_top_rated':
-        _top_rated_shows.doc(widget.id).update({
-          "name": name,
-          "overview": overview,
-          "popularity": ('' !=popularity)?double.parse(popularity):0,
-          "backdrop_path": backdrop_path,
-        });
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => TvShowListView(type: type)),
-        );
-        Toast.show("Tv Show Updated Successfully", context,
-            duration: Toast.LENGTH_LONG,
-            gravity: Toast.BOTTOM,
-            backgroundColor: Colors.green);
-        break;
+  save() {
+    if ('' != name && '' != overview) {
+      switch (type) {
+        case 'tv_shows':
+          _shows.add({
+            "name": name,
+            "overview": overview,
+            "popularity": ('' !=popularity)?double.parse(popularity):0,
+            "backdrop_path": backdrop_path,
+          });
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => TvShowListView(type: type)),
+          );
+          Toast.show("Tv Show Added Successfully", context,
+              duration: Toast.LENGTH_LONG,
+              gravity: Toast.BOTTOM,
+              backgroundColor: Colors.green);
+          break;
+        case 'on_air_tv_shows':
+          _on_air_shows.add({
+            "name": name,
+            "overview": overview,
+            "popularity": ('' !=popularity)?double.parse(popularity):0,
+            "backdrop_path": backdrop_path,
+          });
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => TvShowListView(type: type)),
+          );
+          Toast.show("Tv Show Added Successfully", context,
+              duration: Toast.LENGTH_LONG,
+              gravity: Toast.BOTTOM,
+              backgroundColor: Colors.green);
+          break;
+        case 'tv_top_rated':
+          _top_rated_shows.add({
+            "name": name,
+            "overview": overview,
+            "popularity": ('' !=popularity)?double.parse(popularity):0,
+            "backdrop_path": backdrop_path,
+          });
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => TvShowListView(type: type)),
+          );
+          Toast.show("Tv Show Added Successfully", context,
+              duration: Toast.LENGTH_LONG,
+              gravity: Toast.BOTTOM,
+              backgroundColor: Colors.green);
+          break;
+      }
+    } else {
+      Toast.show("Please fill all the fields", context,
+          duration: Toast.LENGTH_LONG,
+          gravity: Toast.BOTTOM,
+          backgroundColor: Colors.red);
     }
   }
 }
 
-class FormButton extends StatelessWidget {
-  final String text;
-  final Function onPressed;
-
-  const FormButton({this.text = "", this.onPressed, Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    double screenHeight = MediaQuery.of(context).size.height;
-
-    return ElevatedButton(
-      onPressed: onPressed as void Function(),
-      child: Text(
-        text,
-        style: const TextStyle(fontSize: 16),
-      ),
-      style: ElevatedButton.styleFrom(
-        padding: EdgeInsets.symmetric(vertical: screenHeight * .02),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
-      ),
-    );
-  }
-}
-
-class InputField extends StatelessWidget {
+class TextInputField extends StatelessWidget {
   final String labelText;
   final Function(String) onChanged;
   final Function(String) onSubmitted;
@@ -245,7 +220,7 @@ class InputField extends StatelessWidget {
   final bool autoFocus;
   final bool obscureText;
 
-  const InputField(
+  const TextInputField(
       {this.labelText,
       this.onChanged,
       this.onSubmitted,
@@ -261,7 +236,6 @@ class InputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
-      controller: TextEditingController(text: value),
       autofocus: autoFocus,
       onChanged: onChanged,
       onSubmitted: onSubmitted,

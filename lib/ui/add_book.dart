@@ -203,17 +203,6 @@ class _AddBookScreenState extends State<AddBookScreen> {
           }
       };
 
-  logOut() => {
-        _users.doc('ljipn32D6ddiSuE3rVXm').update({"logged_in": false}),
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const MyHomePage()),
-        ),
-        Toast.show("Admin User Log Out Successfully", context,
-            duration: Toast.LENGTH_LONG,
-            gravity: Toast.BOTTOM,
-            backgroundColor: Colors.green),
-      };
 }
 
 class FormButton extends StatelessWidget {

@@ -4,6 +4,7 @@ import 'package:education_app/ui/tv_shows_popular.dart';
 import 'package:flutter/material.dart';
 import 'add_movie.dart';
 import 'add_book.dart';
+import 'add_tv_show.dart';
 import 'home_screen.dart';
 import 'books.dart';
 import 'login_screen.dart';
@@ -140,7 +141,7 @@ class _SideMenuState extends State<SideMenu> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const AddAdvertisement()),
+                    builder: (context) => const AddTvShow()),
               )
             },
           )
