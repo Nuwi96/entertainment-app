@@ -5,25 +5,26 @@ import 'package:toast/toast.dart';
 
 import 'home_screen.dart';
 import 'books.dart';
+import 'musics.dart';
 
-class AddMovieScreen extends StatefulWidget {
+class AddMusicScreen extends StatefulWidget {
   final Function(String email, String password) onSubmitted;
 
-  const AddMovieScreen({this.onSubmitted, Key key}) : super(key: key);
+  const AddMusicScreen({this.onSubmitted, Key key}) : super(key: key);
 
   @override
-  _AddMovieScreenState createState() => _AddMovieScreenState();
+  _AddMusicScreenState createState() => _AddMusicScreenState();
 }
 
-class _AddMovieScreenState extends State<AddMovieScreen> {
+class _AddMusicScreenState extends State<AddMusicScreen> {
   String title;
   String popularity;
-  String year;
+  String singer;
   String desc;
   String image;
-  String types = '1';
-  final CollectionReference _movies =
-  FirebaseFirestore.instance.collection('movies');
+  String type = '1';
+  final CollectionReference _musics =
+  FirebaseFirestore.instance.collection('musics');
 
   final CollectionReference _users =
   FirebaseFirestore.instance.collection('login_user');
@@ -62,7 +63,7 @@ class _AddMovieScreenState extends State<AddMovieScreen> {
             children: [
               SizedBox(height: screenHeight * .025),
               const Text(
-                "Add New Movie,",
+                "Add New Music,",
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -105,11 +106,11 @@ class _AddMovieScreenState extends State<AddMovieScreen> {
               TextInputField(
                 onChanged: (value) {
                   setState(() {
-                    year = value;
+                    singer = value;
                   });
                 },
                 // onSubmitted: (val) => submit(),
-                labelText: "Year",
+                labelText: "Singer",
                 textInputAction: TextInputAction.next,
               ),
               SizedBox(height: screenHeight * .025),
@@ -131,20 +132,21 @@ class _AddMovieScreenState extends State<AddMovieScreen> {
                   '1',
                   '2',
                   '3'
+
                 ].map((String value) {
                   return new DropdownMenuItem(
                       value: value,
                       child: Row(
                         children: <Widget>[
-                          Text('Movie type ' + value),
+                          Text('Music Type ' + value),
                         ],
                       ));
                 }).toList(),
                 onChanged: (newValue) {
                   // do other stuff with _category
-                  setState(() => types = newValue);
+                  setState(() => type = newValue);
                 },
-                value: types,
+                value: type,
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.fromLTRB(10, 20, 10, 20),
                   filled: true,
@@ -156,7 +158,7 @@ class _AddMovieScreenState extends State<AddMovieScreen> {
                 height: screenHeight * .025,
               ),
               FormButton(
-                text: "Save Movie",
+                text: "Save Music",
                 onPressed: save,
               ),
               SizedBox(
@@ -174,18 +176,18 @@ class _AddMovieScreenState extends State<AddMovieScreen> {
             duration: Toast.LENGTH_LONG,
             gravity: Toast.BOTTOM,
             backgroundColor: Colors.green),
-        await _movies.add({
+        await _musics.add({
           "title": title,
-          "types": int.parse(types),
+          "type": int.parse(type),
           "description": desc,
           "image": image,
-          "year": year,
+          "singer": singer,
           "popularity": popularity,
           "added_user": 1,
         }),
         await Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const LessonsScreen()),
+          MaterialPageRoute(builder: (context) => const MusicsScreen()),
         )
       }
     else

@@ -1,47 +1,41 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:education_app/ui/side_menu.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
 
-import 'home_screen.dart';
 import 'books.dart';
 
-class AddMovieScreen extends StatefulWidget {
-  final Function(String email, String password) onSubmitted;
+class UpdateMovie extends StatefulWidget {
+  final data;
+  final id;
 
-  const AddMovieScreen({this.onSubmitted, Key key}) : super(key: key);
+  const UpdateMovie({Key key, this.data, this.id}) : super(key: key);
 
   @override
-  _AddMovieScreenState createState() => _AddMovieScreenState();
+  _UpdateMovieState createState() => _UpdateMovieState();
 }
 
-class _AddMovieScreenState extends State<AddMovieScreen> {
+class _UpdateMovieState extends State<UpdateMovie> {
+  final CollectionReference _movies =
+  FirebaseFirestore.instance.collection('movies');
   String title;
-  String popularity;
   String year;
+  String population;
   String desc;
   String image;
   String types = '1';
-  final CollectionReference _movies =
-  FirebaseFirestore.instance.collection('movies');
-
-  final CollectionReference _users =
-  FirebaseFirestore.instance.collection('login_user');
-
-  var userArray = [];
 
   @override
   void initState() {
     super.initState();
-    getData();
-  }
-
-  Future<void> getData() async {
-    // Get docs from collection reference
-    QuerySnapshot querySnapshot = await _users.get();
-
     setState(() {
-      userArray = querySnapshot.docs.map((doc) => doc.data()).toList();
+      title = widget.data['title'];
+      year = widget.data['year'];
+      population = widget.data['population'];
+      desc = widget.data['description'];
+      image = widget.data['image'];
+      types = widget.data['types'].toString();
     });
   }
 
@@ -57,69 +51,68 @@ class _AddMovieScreenState extends State<AddMovieScreen> {
       body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: ListView(
-            shrinkWrap: true,
-            physics: ScrollPhysics(),
             children: [
               SizedBox(height: screenHeight * .025),
               const Text(
-                "Add New Movie,",
+                "Update Movie,",
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               SizedBox(height: screenHeight * .01),
-              TextInputField(
+              InputField(
                 onChanged: (value) {
                   setState(() {
                     title = value;
                   });
                 },
+                value: title,
                 labelText: "Title",
-                textInputAction: TextInputAction.next,
+                // textInputAction: TextInputAction.next,
                 // autoFocus: true,
               ),
               SizedBox(height: screenHeight * .025),
-              TextInputField(
-                onChanged: (value) {
-                  setState(() {
-                    popularity = value;
-                  });
-                },
-                // onSubmitted: (val) => submit(),
-                labelText: "Popularity",
-                textInputAction: TextInputAction.next,
-              ),
-              SizedBox(height: screenHeight * .025),
-              TextInputField(
-                onChanged: (value) {
-                  setState(() {
-                    desc = value;
-                  });
-                },
-                // onSubmitted: (val) => submit(),
-                labelText: "Description",
-                textInputAction: TextInputAction.next,
-              ),
-              SizedBox(height: screenHeight * .025),
-              TextInputField(
+              InputField(
                 onChanged: (value) {
                   setState(() {
                     year = value;
                   });
                 },
-                // onSubmitted: (val) => submit(),
+                value: year,
                 labelText: "Year",
                 textInputAction: TextInputAction.next,
               ),
               SizedBox(height: screenHeight * .025),
-              TextInputField(
+              InputField(
+                onChanged: (value) {
+                  setState(() {
+                    desc = value;
+                  });
+                },
+                value: desc,
+                labelText: "Description",
+                textInputAction: TextInputAction.next,
+              ),
+              SizedBox(height: screenHeight * .025),
+              InputField(
+                onChanged: (value) {
+                  setState(() {
+                    population = value;
+                  });
+                },
+                value: population,
+                labelText: "Population",
+                textInputAction: TextInputAction.next,
+              ),
+              SizedBox(height: screenHeight * .025),
+              InputField(
                 onChanged: (value) {
                   setState(() {
                     image = value;
                   });
                 },
-                // onSubmitted: (val) => submit(),
+                value: image,
                 labelText: "Image URL",
                 textInputAction: TextInputAction.next,
               ),
@@ -136,7 +129,7 @@ class _AddMovieScreenState extends State<AddMovieScreen> {
                       value: value,
                       child: Row(
                         children: <Widget>[
-                          Text('Movie type ' + value),
+                          Text('Types ' + value),
                         ],
                       ));
                 }).toList(),
@@ -156,8 +149,8 @@ class _AddMovieScreenState extends State<AddMovieScreen> {
                 height: screenHeight * .025,
               ),
               FormButton(
-                text: "Save Movie",
-                onPressed: save,
+                text: "Update Movie",
+                onPressed: update,
               ),
               SizedBox(
                 height: screenHeight * .15,
@@ -167,35 +160,24 @@ class _AddMovieScreenState extends State<AddMovieScreen> {
     );
   }
 
-  save() async => {
-    if (null != title && null != popularity)
-      {
-        Toast.show("Added Successfully", context,
-            duration: Toast.LENGTH_LONG,
-            gravity: Toast.BOTTOM,
-            backgroundColor: Colors.green),
-        await _movies.add({
-          "title": title,
-          "types": int.parse(types),
-          "description": desc,
-          "image": image,
-          "year": year,
-          "popularity": popularity,
-          "added_user": 1,
-        }),
-        await Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const LessonsScreen()),
-        )
-      }
-    else
-      {
-        Toast.show("Please fill all the fields", context,
-            duration: Toast.LENGTH_LONG,
-            gravity: Toast.BOTTOM,
-            backgroundColor: Colors.red),
-      }
-  };
+  update() {
+    _movies.doc(widget.id).update({
+      "title": title,
+      "year": year,
+      "population": population,
+      "description": desc,
+      "image": image,
+      "types": int.parse(types),
+    });
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const LessonsScreen()),
+    );
+    Toast.show("Movie Updated Successfully", context,
+        duration: Toast.LENGTH_LONG,
+        gravity: Toast.BOTTOM,
+        backgroundColor: Colors.green);
+  }
 }
 
 class FormButton extends StatelessWidget {
@@ -224,7 +206,7 @@ class FormButton extends StatelessWidget {
   }
 }
 
-class TextInputField extends StatelessWidget {
+class InputField extends StatelessWidget {
   final String labelText;
   final Function(String) onChanged;
   final Function(String) onSubmitted;
@@ -235,7 +217,7 @@ class TextInputField extends StatelessWidget {
   final bool autoFocus;
   final bool obscureText;
 
-  const TextInputField(
+  const InputField(
       {this.labelText,
         this.onChanged,
         this.onSubmitted,
@@ -251,6 +233,7 @@ class TextInputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      controller: TextEditingController(text: value),
       style: const TextStyle(color: Colors.black),
       onChanged: onChanged,
       decoration: InputDecoration(
