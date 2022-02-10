@@ -4,10 +4,13 @@ import 'package:education_app/ui/tv_shows_popular.dart';
 import 'package:flutter/material.dart';
 import 'add_movie.dart';
 import 'add_book.dart';
+import 'add_music.dart';
 import 'add_tv_show.dart';
 import 'home_screen.dart';
 import 'books.dart';
 import 'login_screen.dart';
+import 'musics.dart';
+import 'movies.dart';
 
 class SideMenu extends StatefulWidget {
   const SideMenu({Key key}) : super(key: key);
@@ -39,7 +42,7 @@ class _SideMenuState extends State<SideMenu> {
 
   @override
   Widget build(BuildContext context) {
-    return Drawer(
+    return Drawer(backgroundColor: Colors.grey,
       child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
@@ -63,7 +66,7 @@ class _SideMenuState extends State<SideMenu> {
             onTap: () => {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const MyHomePage()),
+                MaterialPageRoute(builder: (context) => MyHomePage()),
               )
             },
           ),
@@ -73,7 +76,7 @@ class _SideMenuState extends State<SideMenu> {
             onTap: () => {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const LessonsScreen()),
+                MaterialPageRoute(builder: (context) => LessonsScreen()),
               )
             },
           ),
@@ -83,7 +86,17 @@ class _SideMenuState extends State<SideMenu> {
             onTap: () => {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const TuitionScreen()),
+                MaterialPageRoute(builder: (context) => MoviesScreen()),
+              )
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.house_sharp),
+            title: const Text('Music'),
+            onTap: () => {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => MusicsScreen()),
               )
             },
           ),
@@ -93,7 +106,7 @@ class _SideMenuState extends State<SideMenu> {
             onTap: () => {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const TvShows()),
+                MaterialPageRoute(builder: (context) => TvShows()),
               )
             },
           ),
@@ -115,7 +128,7 @@ class _SideMenuState extends State<SideMenu> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const AddBookScreen()),
+                          builder: (context) => AddBookScreen()),
                     )
                   },
                 )
@@ -128,10 +141,24 @@ class _SideMenuState extends State<SideMenu> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const AddAdvertisement()),
+                          builder: (context) => AddMovieScreen()),
                     )
                   },
                 )
+              : Text(''): Text(''),
+
+          userArray.isNotEmpty?userArray[0]['logged_in']
+              ? ListTile(
+            leading: const Icon(Icons.house_sharp),
+            title: const Text('Add Music'),
+            onTap: () => {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => AddMusicScreen()),
+              )
+            },
+          )
               : Text(''): Text(''),
           userArray.isNotEmpty?userArray[0]['logged_in']
               ? ListTile(

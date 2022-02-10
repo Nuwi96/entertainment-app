@@ -5,6 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'books.dart';
+import 'movies.dart';
+import 'musics.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key key}) : super(key: key);
@@ -14,26 +16,34 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
   final CollectionReference _users =
       FirebaseFirestore.instance.collection('login_user');
 
   var userArray = [];
   var item = [
     {
-      "name": "Movies",
-      "image": "assets/images/movie - Copy.jpg",
-      "screen": "",
-    },
-    {
       "name": "Book",
       "image": "assets/images/book - Copy.jpg",
       "screen": LessonsScreen(),
+    },
+    {
+      "name": "Movies",
+      "image": "assets/images/movie - Copy.jpg",
+      "screen": MoviesScreen(),
+    },
+
+    {
+      "name": "Music",
+      "image": "assets/images/music.jpg",
+      "screen": MusicsScreen(),
     },
     {
       "name": "Tv Shows",
       "image": "assets/images/tv - Copy.jpg",
       "screen": TvShows(),
     }
+
   ];
 
   @override
@@ -58,6 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         backgroundColor: Color(0xff00008B),
       ),
+      backgroundColor: Colors.grey,
       body: GridView.count(
         crossAxisCount: 2,
         crossAxisSpacing: 10.0,
@@ -83,7 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       decoration: new BoxDecoration(
                         image: new DecorationImage(
                           colorFilter: ColorFilter.mode(
-                              Colors.black.withOpacity(0.50),
+                              Colors.black.withOpacity(0.70),
                               BlendMode.dstATop),
                           image: new AssetImage(item[index]['image']),
                           fit: BoxFit.cover,
